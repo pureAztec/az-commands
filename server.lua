@@ -24,7 +24,8 @@ local commands = {				-- # Lista de comandos, caso alterem mudem dentro da chave
 	["fix"] = "fixar",
 	["revive"] = "reviver",
 	["armor"] = "colete",
-	["vehiclespawn"] = "veh"
+	["vehiclespawn"] = "veh",
+	["coords"] = "cds"
 }
 
 --[[ C O M A N D O S ]]--
@@ -138,6 +139,15 @@ RegisterCommand(commands.vehiclespawn, function(source, args)
 			end
 		end
 	end
+end)
+
+RegisterCommand(commands.coords, function(source)
+	CancelEvent()
+	local user_id = vRP.getUserId({source})
+	local player = vRP.getUserSource({user_id}) 
+	vRPclient.getPosition(player,{},function(x,y,z)
+		print(" X: "..x..", Y: "..y..", Z: "..z)
+	end)
 end)
 
 --[[ F U N Ç Õ E S ]]--
