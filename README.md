@@ -9,7 +9,7 @@
 <b>/fixar</b>     - Fixar veiculo, <code>ex: /fixar [id]</code><br>
 <b>/reviver</b>  - Reviver player HP, FOME, SEDE, <code>ex: /reviver [id]</code><br>
 <b>/colete</b>   - Pega/Dar colete, <code>ex: /colete [id]</code><br>
-<b>/veh</b>        - Spawna veiculo<br>
+<b>/veh</b>         - Spawna veiculo<br>
 
 # Discord: AZTËC™#0001
 https://discord.gg/XZUPsND
