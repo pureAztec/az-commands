@@ -1,15 +1,15 @@
 ![logo](https://i.imgur.com/CCKL9Bk.png)
 
 # Comandos:<br>
-<b>/nc</b>       - No-clip<br>
+<b>/nc</b>        - No-clip<br>
 <b>/tpp</b>      - Teleportar ao blip<br>
-<b>/tpo</b>      - Teleportar até<br>
-<b>/tpm</b>      - Teleportar até mim<br>
-<b>/dv</b>       - Deletar veiculo proprio/proximo<br>
-<b>/fixar</b>    - Fixar veiculo<br>
-<b>/reviver</b>  - Reviver player HP, FOME, SEDE<br>
-<b>/colete</b>   - Pega/Dar colete, <font color="cyan">ex: /colete [id]</font><br>
-<b>/veh</b>      - Spawna veiculo<br>
+<b>/tpo</b>      - Teleportar até, <code>ex: /tpo [id]</code><br>
+<b>/tpm</b>     - Teleportar até mim, <code>ex: /tpm [id]</code><br>
+<b>/dv</b>        - Deletar veiculo proprio/proximo<br>
+<b>/fixar</b>     - Fixar veiculo, <code>ex: /fixar [id]</code><br>
+<b>/reviver</b>  - Reviver player HP, FOME, SEDE, <code>ex: /reviver [id]</code><br>
+<b>/colete</b>   - Pega/Dar colete, <code>ex: /colete [id]</code><br>
+<b>/veh</b>       - Spawna veiculo<br>
 
 # Discord: AZTËC™#0001
 # https://discord.gg/XZUPsND
