@@ -146,7 +146,7 @@ RegisterCommand(commands.coords, function(source)
 	local user_id = vRP.getUserId({source})
 	local player = vRP.getUserSource({user_id}) 
 	vRPclient.getPosition(player,{},function(x,y,z)
-		print(" X: "..x..", Y: "..y..", Z: "..z)
+		print("["..user_id.."] X: "..x..", Y: "..y..", Z: "..z)
 	end)
 end)
 
