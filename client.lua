@@ -100,51 +100,34 @@ end
 
 RegisterNetEvent('azt:fixvehicle')
 AddEventHandler('azt:fixvehicle', function(player)
-    if player then
-        local ped = GetPlayerPed(GetPlayerFromServerId(tonumber(player)))
-        local vehicle = GetVehiclePedIsIn(ped, false)
-        if IsPedInAnyVehicle(ped, false) then
-            SetVehicleEngineHealth(vehicle, 1000)
-            SetVehicleEngineOn(vehicle, true, true)
-            SetVehicleFixed(vehicle)
-        end
-    else
-        local ped = GetPlayerPed(-1)
-        local vehicle = GetVehiclePedIsIn(ped,false)
-        if IsPedInAnyVehicle(ped, false) then
-            SetVehicleEngineHealth(vehicle, 1000)
-            SetVehicleEngineOn(vehicle, true, true)
-            SetVehicleFixed(vehicle)        
-        end
-    end  
+    local ped = GetPlayerPed(GetPlayerFromServerId(tonumber(player)))
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    if IsPedInAnyVehicle(ped, false) then
+        SetVehicleEngineHealth(vehicle, 1000)
+        SetVehicleEngineOn(vehicle, true, true)
+        SetVehicleFixed(vehicle)
+    end 
 end)
 
 RegisterNetEvent("azt:playerlife")
 AddEventHandler("azt:playerlife", function(player, value)
-    if player then
-        SetEntityHealth(GetPlayerPed(GetPlayerFromServerId(tonumber(player))), value)
-        ShowNotification("ID "..player.." revivido.")
-    else
-        SetEntityHealth(GetPlayerPed(-1), value)
-    end
+    SetEntityHealth(GetPlayerPed(GetPlayerFromServerId(tonumber(player))), value)
 end)
 
 RegisterNetEvent("azt:spawnvehicle")
 AddEventHandler("azt:spawnvehicle", function(model, player)
+    local ped = GetPlayerPed(GetPlayerFromServerId(tonumber(player)))
     local vehicle = GetHashKey(model)
     RequestModel(vehicle)
     while not HasModelLoaded(vehicle) do
       Wait(1)
     end
-    local coords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(GetPlayerFromServerId(tonumber(player))), 0, 5.0, 0)
+    local coords = GetOffsetFromEntityInWorldCoords(ped, 0, 5.0, 0)
     local spawned_car = CreateVehicle(vehicle, coords, 64.55118,116.613,78.69622, true, false)    
     SetVehicleOnGroundProperly(spawned_car)
-    SetPedIntoVehicle(GetPlayerPed(GetPlayerFromServerId(tonumber(player))), spawned_car, - 1)
+    SetPedIntoVehicle(ped, spawned_car, - 1)
     SetModelAsNoLongerNeeded(vehicle)
-    Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(spawned_car))
-    if spawned_car then
-        ShowNotification("Veículo "..model.." spawnado, ID: "..player..".")
-    end
+    Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
 end)
 
 RegisterNetEvent("azt:playerarmor")
@@ -159,5 +142,7 @@ AddEventHandler("azt:playerarmor", function(player, armour, vest)
             end
         end
     end
-    SetPedArmour(ped, math.floor(armour))
+    if armour then
+        SetPedArmour(ped, math.floor(armour))
+    end
 end)

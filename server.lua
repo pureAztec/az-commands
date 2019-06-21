@@ -12,14 +12,15 @@ local Proxy = module("vrp", "lib/Proxy")
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP", "azt_commands")
 
-local defaultArmor = 100		-- # Valor do colete padrão do servidor
-local defaultHealth = 200		-- # Valor da vida padrão do servidor
+defaultArmor = 100		-- # Valor do colete padrão do servidor
+defaultHealth = 200		-- # Valor da vida padrão do servidor
 
 local commands = {				-- # Lista de comandos, caso alterem mudem dentro da chave do mesmo!
 	["noclip"] = "nc",
 	["tptowaypoint"] = "tpp",
 	["tpto"] = "tpo",
 	["tptome"] = "tpm",
+	["tpcoords"] = "tpc",
 	["dv"] = "dv",
 	["fix"] = "fixar",
 	["revive"] = "reviver",
@@ -30,15 +31,17 @@ local commands = {				-- # Lista de comandos, caso alterem mudem dentro da chave
 
 --[[ C O M A N D O S ]]--
 RegisterCommand(commands.armor, function(source, args)
-	CancelEvent()
-	local user_id = vRP.getUserId({source})
-	if #args > 0 then		
-		if args[1] then
-			TriggerClientEvent("azt:playerarmor", source, tonumber(args[1]), defaultArmor, true)
+	CancelEvent()	
+	if hasPermission(source, "player.armor") then
+		if #args > 0 then		
+			if args[1] then
+				TriggerClientEvent("azt:playerarmor", source, tonumber(args[1]), defaultArmor, true)
+			end
+		else
+			local user_id = vRP.getUserId({source})
+			TriggerClientEvent("azt:playerarmor", source, user_id, defaultArmor, true)
 		end
-	else
-		TriggerClientEvent("azt:playerarmor", source, user_id, defaultArmor, true)
-	end
+	end	
 end, false)
 
 RegisterCommand(commands.noclip, function(source)
@@ -76,9 +79,20 @@ RegisterCommand(commands.tptome, function(source, args)
 			vRPclient.getPosition(player,{},function(x,y,z)				
 				local tplayer = vRP.getUserSource({tonumber(args[1])})
 				if tplayer ~= nil then
-					vRPclient.teleport(tplayer,{x,y,z})
+					vRPclient.teleport(tplayer, {x, y, z})
 				end
 			end)
+		end
+	end
+end, false)
+
+RegisterCommand(commands.tpcoords, function(source, args)
+	CancelEvent()
+	if #args > 0 then
+		if hasPermission(source, "player.tpto") then
+			if args[1] and args[2] and args[3] then
+				vRPclient.teleport(source, {args[1], args[2], args[3]})
+			end
 		end
 	end
 end, false)
@@ -94,7 +108,6 @@ RegisterCommand(commands.revive, function(source, args)
 	CancelEvent()
 	if hasGroup(source, "superadmin") or hasGroup(source, "moderador") or hasGroup(source, "suporte") or hasPermission(source, "god.mode") then
 		local user_id = vRP.getUserId({source})
-		local player = vRP.getUserSource({user_id}) 
 		if #args > 0 then
 			if args[1] then
 				print(args[1])
@@ -103,7 +116,7 @@ RegisterCommand(commands.revive, function(source, args)
 				vRP.setThirst({tonumber(args[1]), 0})
 			end
 		else
-			TriggerClientEvent("azt:playerlife", source, nil, defaultHealth)
+			TriggerClientEvent("azt:playerlife", source, user_id, defaultHealth)
 			vRP.setHunger({user_id, 0})
 			vRP.setThirst({user_id, 0})
 		end
@@ -114,13 +127,12 @@ RegisterCommand(commands.fix, function(source, args)
 	CancelEvent()
 	if hasGroup(source, "superadmin") or hasGroup(source, "moderador") or hasGroup(source, "suporte") or hasPermission(source, "admin.fix") then
 		local user_id = vRP.getUserId({source})
-		local player = vRP.getUserSource({user_id}) 
 		if #args > 0 then
 			if args[1] then
 				TriggerClientEvent("azt:fixvehicle", source, tonumber(args[1]))
 			end
 		else
-			TriggerClientEvent("azt:fixvehicle", source, nil)
+			TriggerClientEvent("azt:fixvehicle", source, user_id)
 		end
 	end
 end)
@@ -144,10 +156,8 @@ end)
 RegisterCommand(commands.coords, function(source)
 	CancelEvent()
 	local user_id = vRP.getUserId({source})
-	local player = vRP.getUserSource({user_id}) 
-	vRPclient.getPosition(player, {}, function(x, y, z)
-		print("[ID: "..user_id.."] X: "..x..", Y: "..y..", Z: "..z)
-		vRP.prompt(player,"Copie as coordenadas:", x..", "..y..", "..z, function(player, user_id) end)
+	vRPclient.getPosition(source, {}, function(x, y, z)
+		vRP.prompt({source, "[ID: "..user_id.."] Copie as coordenadas com Ctrl-A Ctrl-C", x..", "..y..", "..z}, function(source, tab) end)
 	end)
 end)
 
