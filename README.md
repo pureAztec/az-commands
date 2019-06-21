@@ -5,6 +5,7 @@
 <b>/tpp</b>      - Teleportar ao blip<br>
 <b>/tpo</b>      - Teleportar até, <code>ex: /tpo [id]</code><br>
 <b>/tpm</b>     - Teleportar até mim, <code>ex: /tpm [id]</code><br>
+<b>/tpc</b>     - Teleportar as coordenadas, <code>ex: /tpc [x] [y] [z]</code>
 <b>/dv</b>        - Deletar veiculo próprio/próximo<br>
 <b>/fixar</b>     - Fixar veiculo, <code>ex: /fixar [id]</code><br>
 <b>/reviver</b>  - Reviver player HP, FOME, SEDE, <code>ex: /reviver [id]</code><br>
