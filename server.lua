@@ -12,10 +12,10 @@ local Proxy = module("vrp", "lib/Proxy")
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP", "azt_commands")
 
-defaultArmor = 100		-- # Valor do colete padrão do servidor
-defaultHealth = 200		-- # Valor da vida padrão do servidor
+defaultArmor = 100			-- # Valor do colete padrão do servidor
+defaultHealth = 200			-- # Valor da vida padrão do servidor
 
-local commands = {				-- # Lista de comandos, caso alterem mudem dentro da chave do mesmo!
+local commands = {			-- # Lista de comandos, caso alterem mudem dentro da chave do mesmo!
 	["noclip"] = "nc",
 	["tptowaypoint"] = "tpp",
 	["tpto"] = "tpo",
