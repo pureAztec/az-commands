@@ -26,6 +26,7 @@ local commands = {			-- # Lista de comandos, caso alterem mudem dentro da chave 
 	["revive"] = "reviver",
 	["armor"] = "colete",
 	["vehiclespawn"] = "veh",
+	["mochila"] = "moc",
 	["coords"] = "cds"
 }
 
@@ -122,6 +123,34 @@ RegisterCommand(commands.revive, function(source, args)
 		end
 	end
 end)
+
+RegisterCommand(commands.mochila, function(source, args)
+  CancelEvent()
+	local user_id = vRP.getUserId({source})
+	local idkick = parseInt(args[1])
+	local inventario = {nomeitens, amount}
+    	local data = vRP.getUserDataTable({user_id})
+		if data then
+		local weight = vRP.getInventoryWeight({user_id})
+		local max_weight = vRP.getInventoryMaxWeight({user_id})  
+
+    			for k,v in pairs(data.inventory) do 
+			local name,description,peso,itemlistname = vRP.getItemDefinition({k})
+			TriggerClientEvent('chat:addMessage', source, {
+				template = 
+				[[<div style= "padding: 0.5vw; 
+        			max-width: 400px; 
+       				height: 5px;
+        			display: inline;
+				margin: 0.5vw;">
+				<i class="fa fa-suitcase"></i>   {0} -> {1} || {4}kg            [{2}/{3}]<br>
+				</div>
+				]],
+				args = { name, v.amount, weight, max_weight, peso}
+					})
+				end 
+		end
+  end)  
 
 RegisterCommand(commands.fix, function(source, args)
 	CancelEvent()
