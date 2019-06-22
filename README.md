@@ -12,6 +12,7 @@
 <b>/colete</b>   - Pega/Dar colete, <code>ex: /colete [id]</code><br>
 <b>/veh</b>         - Spawna veiculo, <code>ex: /veh [veh_model]</code><br>
 <b>/cds</b>        - Mostra as coordenadas atuais no prompt
+<b>/moc</b>        - Mostra o inventário!
 
 # Discord: AZTËC™#0001
 https://discord.gg/XZUPsND
