@@ -27,6 +27,7 @@ local commands = {			-- # Lista de comandos, caso alterem mudem dentro da chave 
 	["revive"] = "reviver",
 	["armor"] = "colete",
 	["vehiclespawn"] = "veh",
+	["cruise"] = "vcr",
 	["coords"] = "cds"
 }
 
@@ -177,6 +178,29 @@ RegisterCommand(commands.vehiclespawn, function(source, args)
 			end
 		end
 	end
+end)
+
+RegisterCommand(commands.cruise, function(source, args)
+	CancelEvent()	
+	if #args > 0 then
+		if args[1] then	
+			local velocity = tonumber(args[1])			
+			if args[2] then
+				local player = vRP.getUserSource({tonumber(args[2])})
+				if hasGroup(source, "superadmin") or hasGroup(source, "moderador") or hasGroup(source, "suporte") or hasPermission(source, "admin.spawnveh") then				
+					TriggerClientEvent("azt:velcontrolvehicle", source, player, velocity)
+				end
+			else					
+				local user_id = vRP.getUserId({source})
+				local player = vRP.getUserSource({user_id}) 
+				TriggerClientEvent("azt:velcontrolvehicle", source, player, velocity)
+			end			
+		end
+	else
+		local user_id = vRP.getUserId({source})
+		local player = vRP.getUserSource({user_id}) 
+		TriggerClientEvent("azt:velcontrolvehicle", source, player, velocity)
+	end	
 end)
 
 RegisterCommand(commands.coords, function(source)

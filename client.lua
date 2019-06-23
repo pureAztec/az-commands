@@ -110,8 +110,11 @@ AddEventHandler('azt:fixvehicle', function(player)
 end)
 
 RegisterNetEvent("azt:playerlife")
-AddEventHandler("azt:playerlife", function(player, value)
-    SetEntityHealth(GetPlayerPed(GetPlayerFromServerId(tonumber(player))), value)
+AddEventHandler("azt:playerlife", function(player, value)    
+    local ped = GetPlayerPed(GetPlayerFromServerId(tonumber(player)))
+    local health = GetEntityHealth(ped)
+    print(health)
+    SetEntityHealth(ped, value)
 end)
 
 RegisterNetEvent("azt:spawnvehicle")
@@ -145,4 +148,36 @@ AddEventHandler("azt:playerarmor", function(player, armour, vest)
     if armour then
         SetPedArmour(ped, math.floor(armour))
     end
+end)
+
+local pcruise = {}
+RegisterNetEvent("azt:velcontrolvehicle")
+AddEventHandler("azt:velcontrolvehicle", function(player, velocity)
+    local ped = GetPlayerPed(GetPlayerFromServerId(tonumber(player)))
+    Citizen.CreateThread( function()
+        if velocity == 0 or velocity == nil then
+            pcruise[player] = false            
+		    local vehicle = GetVehiclePedIsIn(ped, false)
+		    local vehicleModel = GetEntityModel(vehicle)
+            local maxSpeed = GetVehicleMaxSpeed(vehicleModel)
+            SetEntityMaxSpeed(GetVehiclePedIsIn(ped, false), maxSpeed)       
+        else
+            pcruise[player] = true
+        end
+        while pcruise[player] do   
+            if velocity == 0 or velocity == nil then
+                local vehicle = GetVehiclePedIsIn(ped, false)
+                local vehicleModel = GetEntityModel(vehicle)
+                local maxSpeed = GetVehicleMaxSpeed(vehicleModel)
+                SetEntityMaxSpeed(GetVehiclePedIsIn(ped, false), maxSpeed)
+            end         
+            local vehicle = GetVehiclePedIsIn(ped, false)
+            local speed = GetEntitySpeed(vehicle)
+            Citizen.Wait(0)
+            if math.floor(speed * 3.6) == velocity then
+                cruise = GetEntitySpeed(GetVehiclePedIsIn(ped, false))
+                SetEntityMaxSpeed(GetVehiclePedIsIn(ped, false), cruise)
+            end        
+        end
+    end)
 end)
