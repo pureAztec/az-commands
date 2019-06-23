@@ -23,6 +23,7 @@ local commands = {			-- # Lista de comandos, caso alterem mudem dentro da chave 
 	["tpcoords"] = "tpc",
 	["dv"] = "dv",
 	["fix"] = "fixar",
+	["bag"] = "inv",
 	["revive"] = "reviver",
 	["armor"] = "colete",
 	["vehiclespawn"] = "veh",
@@ -30,19 +31,62 @@ local commands = {			-- # Lista de comandos, caso alterem mudem dentro da chave 
 }
 
 --[[ C O M A N D O S ]]--
+RegisterCommand(commands.revive, function(source, args)
+	CancelEvent()
+	if hasGroup(source, "superadmin") or hasGroup(source, "moderador") or hasGroup(source, "suporte") or hasPermission(source, "god.mode") then		
+		if #args > 0 then
+			if args[1] then
+				local user_id = vRP.getUserSource({tonumber(args[1])})
+				TriggerClientEvent("azt:playerlife", source, user_id, defaultHealth)
+				vRP.setHunger({tonumber(args[1]), 0})
+				vRP.setThirst({tonumber(args[1]), 0})
+			end
+		else
+			local user_id = vRP.getUserId({source})
+			TriggerClientEvent("azt:playerlife", source, user_id, defaultHealth)
+			vRP.setHunger({user_id, 0})
+			vRP.setThirst({user_id, 0})
+		end
+	end
+end)
+
 RegisterCommand(commands.armor, function(source, args)
 	CancelEvent()	
-	if hasPermission(source, "player.armor") then
-		if #args > 0 then		
+	if hasGroup(source, "superadmin") then
+		if #args > 0 then
 			if args[1] then
-				TriggerClientEvent("azt:playerarmor", source, tonumber(args[1]), defaultArmor, true)
+				local user_id = vRP.getUserSource({tonumber(args[1])})
+				TriggerClientEvent("azt:playerarmor", source, user_id, defaultArmor, true)
 			end
 		else
 			local user_id = vRP.getUserId({source})
 			TriggerClientEvent("azt:playerarmor", source, user_id, defaultArmor, true)
 		end
-	end	
+	end
 end, false)
+
+RegisterCommand(commands.bag, function(source, args)
+	CancelEvent()
+	local user_id = vRP.getUserId({source})
+	local data = vRP.getUserDataTable({user_id})	
+	if data then
+		local weight = vRP.getInventoryWeight({user_id})
+		local max_weight = vRP.getInventoryMaxWeight({user_id})		
+		local inventory = ""
+		for k,v in pairs(data.inventory) do 
+			local name,description,peso,itemlistname = vRP.getItemDefinition({k})
+			if inventory == "" then
+				inventory = name..": "..v.amount
+			else
+				inventory = inventory.." | "..name..": "..v.amount
+			end
+		end
+		TriggerClientEvent('chat:addMessage', source, {
+			template = [[<div style= "margin-left:9px;font-size:20px;max-width: 400px;height: 5px;display: inline;"><font color=darkorange>Invetario:</font> {0} | <font color=darkorange>[{1}/{2}]</font><br></div>]],
+			args = {inventory, weight, max_weight}
+		})
+	end
+end)
 
 RegisterCommand(commands.noclip, function(source)
 	CancelEvent()
@@ -104,25 +148,6 @@ RegisterCommand(commands.dv, function(source)
 	end	
 end, false)
 
-RegisterCommand(commands.revive, function(source, args)
-	CancelEvent()
-	if hasGroup(source, "superadmin") or hasGroup(source, "moderador") or hasGroup(source, "suporte") or hasPermission(source, "god.mode") then
-		local user_id = vRP.getUserId({source})
-		if #args > 0 then
-			if args[1] then
-				print(args[1])
-				TriggerClientEvent("azt:playerlife", source, tonumber(args[1]), defaultHealth)
-				vRP.setHunger({tonumber(args[1]), 0})
-				vRP.setThirst({tonumber(args[1]), 0})
-			end
-		else
-			TriggerClientEvent("azt:playerlife", source, user_id, defaultHealth)
-			vRP.setHunger({user_id, 0})
-			vRP.setThirst({user_id, 0})
-		end
-	end
-end)
-
 RegisterCommand(commands.fix, function(source, args)
 	CancelEvent()
 	if hasGroup(source, "superadmin") or hasGroup(source, "moderador") or hasGroup(source, "suporte") or hasPermission(source, "admin.fix") then
@@ -143,7 +168,8 @@ RegisterCommand(commands.vehiclespawn, function(source, args)
 		if #args > 0 then
 			if args[1] then
 				if args[2] then
-					TriggerClientEvent("azt:spawnvehicle", source, args[1], tonumber(args[2]))
+					local tplayer = vRP.getUserSource({tonumber(args[2])})
+					TriggerClientEvent("azt:spawnvehicle", source, args[1], tplayer)
 				else
 					local user_id = vRP.getUserId({source})
 					TriggerClientEvent("azt:spawnvehicle", source, args[1], user_id)
