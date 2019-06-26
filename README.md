@@ -14,6 +14,8 @@
 <b>/vcr</b>         - Limita a velocidade do veiculo, <code>ex: /vcr [speed]</code> - caso seja admin <code>ex: /vcr [speed] [id]</code> <br>
 <b>/cds</b>        - Mostra as coordenadas atuais no prompt<br>
 <b>/inv</b>        - Mostra o inventário!<br>
+<b>/gvi</b>        - Da item ao jogador, <code>ex: /gvi [item] [quantity] [id]</code><br>
+<b>/gvw</b>        - Da arma ao jogador, <code>ex: /gvw [weapon] [max_ammo] [id]</code><br>
 
 # Discord: AZTËC™#0001
 https://discord.gg/XZUPsND
