@@ -39,13 +39,11 @@ RegisterCommand(commands.gweapon, function(source, args)
 	if hasGroup(source, "superadmin") then
 		if #args > 0 then
 			if args[1] and args[2] and args[3] then 
-				local item = args[1]
-				if weapons[item] then
-					local max_ammo = args[2]
-					local user_id = vRP.getUserSource({tonumber(args[3])})
-					if user_id ~= nil then
-						TriggerClientEvent("azt:giveWeapon", source, user_id, item, tonumber(max_ammo))
-					end
+				local item = args[1]				
+				local max_ammo = args[2]
+				local user_id = vRP.getUserSource({tonumber(args[3])})
+				if user_id ~= nil then
+					TriggerClientEvent("azt:giveWeapon", source, user_id, item, tonumber(max_ammo))
 				end
 			end
 		end
