@@ -181,3 +181,16 @@ AddEventHandler("azt:velcontrolvehicle", function(player, velocity)
         end
     end)
 end)
+
+RegisterNetEvent("azt:giveWeapon")
+AddEventHandler("azt:giveWeapon", function(player, weaponName, maxAmmo)
+    local playerPed = GetPlayerPed(GetPlayerFromServerId(tonumber(player)))
+    local weapon = GetHashKey(weaponName)
+    GiveWeaponToPed(playerPed, weapon, GetMaxAmmoInClip(playerPed, weapon, 1), true, true)
+    if(HasPedGotWeapon(ped, weapon) == true) then
+        if maxAmmo == 1 then
+            AddAmmoToPed(playerPed, weapon, 9999)
+        end
+        ShowNotification("Weapon Added")
+    end
+end)

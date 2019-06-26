@@ -17,21 +17,53 @@ defaultHealth = 200			-- # Valor da vida padrão do servidor
 
 local commands = {			-- # Lista de comandos, caso alterem mudem dentro da chave do mesmo!
 	["noclip"] = "nc",
+	["gitem"] = "gvi",
+	["gweapon"] = "gvw",
 	["tptowaypoint"] = "tpp",
 	["tpto"] = "tpo",
 	["tptome"] = "tpm",
 	["tpcoords"] = "tpc",
 	["dv"] = "dv",
-	["fix"] = "fixar",
-	["bag"] = "inv",
+	["fix"] = "fixar",	
 	["revive"] = "reviver",
 	["armor"] = "colete",
 	["vehiclespawn"] = "veh",
 	["cruise"] = "vcr",
+	["bag"] = "inv",
 	["coords"] = "cds"
 }
 
 --[[ C O M A N D O S ]]--
+RegisterCommand(commands.gweapon, function(source, args)
+	CancelEvent()
+	if hasGroup(source, "superadmin") then
+		if #args > 0 then
+			if args[1] and args[2] and args[3] then 
+				local item = args[1]
+				if weapons[item] then
+					local max_ammo = args[2]
+					local user_id = vRP.getUserSource({tonumber(args[3])})
+					if user_id ~= nil then
+						TriggerClientEvent("azt:giveWeapon", source, user_id, item, tonumber(max_ammo))
+					end
+				end
+			end
+		end
+	end
+end, false)
+
+RegisterCommand(commands.gitem, function(source, args)
+	CancelEvent()
+	if args[1] and args[2] and args[3] then 
+		local user_id = vRP.getUserSource({tonumber(args[3])})	
+		if user_id ~= nil then
+			local item = args[1]
+			local amount = parseInt(args[2])
+			vRP.giveInventoryItem({user_id, item, amount, true})	
+		end
+	end
+end)
+
 RegisterCommand(commands.revive, function(source, args)
 	CancelEvent()
 	if hasGroup(source, "superadmin") or hasGroup(source, "moderador") or hasGroup(source, "suporte") or hasPermission(source, "god.mode") then		
@@ -74,6 +106,7 @@ RegisterCommand(commands.bag, function(source, args)
 		local weight = vRP.getInventoryWeight({user_id})
 		local max_weight = vRP.getInventoryMaxWeight({user_id})		
 		local inventory = ""
+		if data.inventory == nil or data.inventory == "[]" then return end
 		for k,v in pairs(data.inventory) do 
 			local name,description,peso,itemlistname = vRP.getItemDefinition({k})
 			if inventory == "" then
@@ -186,20 +219,16 @@ RegisterCommand(commands.cruise, function(source, args)
 		if args[1] then	
 			local velocity = tonumber(args[1])			
 			if args[2] then
-				local player = vRP.getUserSource({tonumber(args[2])})
 				if hasGroup(source, "superadmin") or hasGroup(source, "moderador") or hasGroup(source, "suporte") or hasPermission(source, "admin.spawnveh") then				
+					local player = vRP.getUserSource({tonumber(args[2])})
 					TriggerClientEvent("azt:velcontrolvehicle", source, player, velocity)
 				end
 			else					
 				local user_id = vRP.getUserId({source})
 				local player = vRP.getUserSource({user_id}) 
 				TriggerClientEvent("azt:velcontrolvehicle", source, player, velocity)
-			end			
-		end
-	else
-		local user_id = vRP.getUserId({source})
-		local player = vRP.getUserSource({user_id}) 
-		TriggerClientEvent("azt:velcontrolvehicle", source, player, velocity)
+			end
+		end			
 	end	
 end)
 
