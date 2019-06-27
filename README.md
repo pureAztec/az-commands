@@ -11,11 +11,11 @@
 <b>/reviver</b>  - Reviver player HP, FOME, SEDE, <code>ex: /reviver [id]</code><br>
 <b>/colete</b>   - Pega/Dar colete, <code>ex: /colete [id]</code><br>
 <b>/veh</b>         - Spawna veiculo, <code>ex: /veh [veh_model]</code><br>
-<b>/vcr</b>         - Limita a velocidade do veiculo, <code>ex: /vcr [speed]</code> - caso seja admin <code>ex: /vcr [speed] [id]</code> <br>
+<b>/vcr</b>          - Limita a velocidade do veiculo, <code>ex: /vcr [speed]</code> - caso seja admin <code>ex: /vcr [speed] [id]</code> <br>
 <b>/cds</b>        - Mostra as coordenadas atuais no prompt<br>
 <b>/inv</b>        - Mostra o inventário!<br>
 <b>/gvi</b>        - Da item ao jogador, <code>ex: /gvi [item] [quantity] [id]</code><br>
-<b>/gvw</b>        - Da arma ao jogador, <code>ex: /gvw [weapon] [max_ammo] [id]</code><br>
+<b>/gvw</b>       - Da arma ao jogador, <code>ex: /gvw [weapon] [max_ammo] [id]</code><br>
 
 # Discord: AZTËC™#5655
 https://discord.gg/4sEJCVa
