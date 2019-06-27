@@ -17,5 +17,5 @@
 <b>/gvi</b>        - Da item ao jogador, <code>ex: /gvi [item] [quantity] [id]</code><br>
 <b>/gvw</b>        - Da arma ao jogador, <code>ex: /gvw [weapon] [max_ammo] [id]</code><br>
 
-# Discord: AZTËC™#0001
-https://discord.gg/XZUPsND
+# Discord: AZTËC™#5655
+https://discord.gg/4sEJCVa
